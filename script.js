@@ -1,3 +1,6 @@
+let fistNumber, lastNumber, operator
+let displayText = ""
+
 function add(a, b){
     return a+b
 }
@@ -14,8 +17,6 @@ function divide(a, b){
     return a/b
 }
 
-let fistNumber, lastNumber, operator
-
 function operate(operator, a,b){
     switch(operator){
         case "+":
@@ -30,3 +31,13 @@ function operate(operator, a,b){
             return "ERROR"
     }
 }
+
+const body = document.querySelector("body")
+const display = body.querySelector("#display")
+const buttonsDiv = body.querySelector("#buttons")
+const buttonNodeList = buttonsDiv.querySelectorAll("button")
+buttonNodeList.forEach((button)=>{
+    button.addEventListener("click", (e)=>{
+        displayText+=e.target.textContent
+        display.textContent = displayText
+    })})
