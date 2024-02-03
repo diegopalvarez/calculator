@@ -32,12 +32,31 @@ function operate(operator, a,b){
     }
 }
 
+const firstReg = /\(([^)]+)\)/g
+function compute(text){
+    let parentheses = text.match(firstReg)
+    parentheses.forEach(e => e.replace(/\(|\)/g, ""))
+    console.log(parentheses)
+}
+
 const body = document.querySelector("body")
 const display = body.querySelector("#display")
 const buttonsDiv = body.querySelector("#buttons")
-const buttonNodeList = buttonsDiv.querySelectorAll("button")
+const buttonNodeList = buttonsDiv.querySelectorAll("button:not(.special)")
+const clearButton = buttonsDiv.querySelector("#clear")
+const equalButton = buttonsDiv.querySelector("#equal")
+
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
         displayText+=e.target.textContent
         display.textContent = displayText
     })})
+
+clearButton.addEventListener("click", ()=>{
+    displayText = 0
+    display.textContent = displayText
+})
+
+equalButton.addEventListener("click", ()=>{
+    display.textContent = compute(displayText)
+})
