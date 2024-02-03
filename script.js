@@ -32,11 +32,33 @@ function operate(operator, a,b){
     }
 }
 
+//EXPONENTIATION IS MISSING!!!
+
 const firstReg = /\(([^)]+)\)/g
+const secondReg = /\d+(\*|\/)\d+/g
+const lastReg = /\d+(\+|\-)\d+/g
 function compute(text){
-    let parentheses = text.match(firstReg)
-    parentheses.forEach(e => e.replace(/\(|\)/g, ""))
-    console.log(parentheses)
+    const order = [firstReg, secondReg, lastReg]
+    for (let priority of order){
+        while (text.match(priority) !== null){  //Doesn't respect order inside parentheses
+            let item = text.match(priority)
+            for (let i of item){
+                text = text.replace(i, operateString(i))
+            }
+        }
+    }
+    return text
+}
+
+function operateString(string){
+    string = string.split("")
+    string[0]=="(" ? string.splice(0, 1) : string
+    string[string.length - 1]==")" ? string.splice(string.length - 1, 1) : string
+    string = string.join("")
+    let operator = String(string.match(/[^\d]/))
+    let numbers = string.split(/\+|\-|\*|\//)
+    let [a, b] = numbers
+    return operate(operator, +a, +b)
 }
 
 const body = document.querySelector("body")
