@@ -43,7 +43,10 @@ function compute(text){
         while (text.match(priority) !== null){  //Doesn't respect order inside parentheses
             let item = text.match(priority)
             for (let i of item){
-                text = text.replace(i, operateString(i))
+                if (i.split(/\+|\-|\*|\//).length <= 2)
+                    text = text.replace(i, operateString(i))
+                else
+                    text = text.replace(i, compute(i.slice(1, 0).slice(0, -1)))
             }
         }
     }
@@ -75,10 +78,15 @@ buttonNodeList.forEach((button)=>{
     })})
 
 clearButton.addEventListener("click", ()=>{
-    displayText = 0
-    display.textContent = displayText
+    displayText = ""
+    display.textContent = "0"
 })
 
 equalButton.addEventListener("click", ()=>{
-    display.textContent = compute(displayText)
+    if (display.textContent.match(/\(/g) != display.textContent.match(/\)/g)){
+        display.textContent = "ERROR"
+        displayText = ""
+    }
+    else
+        display.textContent = compute(displayText)
 })
