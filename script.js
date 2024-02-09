@@ -32,18 +32,16 @@ function operate(operator, a,b){
     }
 }
 
-//EXPONENTIATION IS MISSING!!!
-
 const firstReg = /\(([^)]+)\)/g
 const secondReg = /\d+(\*|\/)\d+/g
-const lastReg = /\d*(\+|\-)\d+/g
+const lastReg = /\d+(\+|\-)\d+/g
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
-        while (text.match(priority) !== null){  //Doesn't respect order inside parentheses
+        while (text.match(priority) !== null){
             let item = text.match(priority)
             for (let i of item){
-                if (i.split(/\+|\-|\*|\//).length <= 2)
+                if (i.split(/\+|\d+\-|\*|\//).length <= 2)
                     text = text.replace(i, operateString(i))
                 else
                     text = text.replace(i, compute(i.slice(0,-1).slice(1)))
@@ -55,12 +53,19 @@ function compute(text){
 
 function operateString(string){
     string = string.split("")
-    string[0]=="(" ? string.splice(0, 1) : string
-    string[string.length - 1]==")" ? string.splice(string.length - 1, 1) : string
+    if (string[0]=="(")
+        string.splice(0, 1)
+    if (string[string.length - 1]==")")
+        string.splice(string.length - 1, 1)
+    let cutString = string.slice(0)     //Copies value, not reference. One method to have them separate
+    if (string[0]=="-")
+        cutString.splice(0, 1)
+    
     string = string.join("")
-    let operator = String(string.match(/[^\d]/))
-    let numbers = string.split(/\+|\-|\*|\//)
-    let [a, b] = numbers
+    cutString = cutString.join("")
+    let operator = String(cutString.match(/[^\d]/))
+    let splitPosition = string.lastIndexOf(operator)
+    let [a, b] = [string.slice(0, splitPosition), string.slice(splitPosition+1)]
     return operate(operator, +a, +b)
 }
 
