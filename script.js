@@ -82,7 +82,7 @@ function checkParentheses(string){
 const body = document.querySelector("body")
 const display = body.querySelector("#display")
 const buttonsDiv = body.querySelector("#buttons")
-const buttonNodeList = buttonsDiv.querySelectorAll("button:not(.special)")
+const buttonNodeList = buttonsDiv.querySelectorAll("button:not(#equal, #clear)")
 const clearButton = buttonsDiv.querySelector("#clear")
 const equalButton = buttonsDiv.querySelector("#equal")
 
@@ -98,7 +98,7 @@ clearButton.addEventListener("click", ()=>{
 })
 
 equalButton.addEventListener("click", ()=>{
-    if (!checkParentheses(displayText)){
+    if (checkParentheses(displayText)){
         display.textContent = compute(displayText)
     }
     else{
