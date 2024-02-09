@@ -46,7 +46,7 @@ function compute(text){
                 if (i.split(/\+|\-|\*|\//).length <= 2)
                     text = text.replace(i, operateString(i))
                 else
-                    text = text.replace(i, compute(i.slice(1, 0).slice(0, -1)))
+                    text = text.replace(i, compute(i.slice(0,-1).slice(1)))
             }
         }
     }
@@ -62,6 +62,21 @@ function operateString(string){
     let numbers = string.split(/\+|\-|\*|\//)
     let [a, b] = numbers
     return operate(operator, +a, +b)
+}
+
+function checkParentheses(string){
+    let openingParentheses = 0
+    let closingParentheses = 0
+
+    for (let i of string){
+        if (i=="(")
+            openingParentheses++
+        else if (i==")")
+            closingParentheses++
+        if (openingParentheses<closingParentheses)
+            return false
+    }
+    return openingParentheses == closingParentheses ? true : false
 }
 
 const body = document.querySelector("body")
@@ -83,10 +98,11 @@ clearButton.addEventListener("click", ()=>{
 })
 
 equalButton.addEventListener("click", ()=>{
-    if (display.textContent.match(/\(/g) != display.textContent.match(/\)/g)){
+    if (!checkParentheses(displayText)){
+        display.textContent = compute(displayText)
+    }
+    else{
         display.textContent = "ERROR"
         displayText = ""
     }
-    else
-        display.textContent = compute(displayText)
 })
