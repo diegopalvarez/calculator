@@ -36,7 +36,7 @@ function operate(operator, a,b){
 
 const firstReg = /\(([^)]+)\)/g
 const secondReg = /\d+(\*|\/)\d+/g
-const lastReg = /\d*(\+|\-)\d+/g
+const lastReg = /\d+(\+|\-)\d+/g
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
