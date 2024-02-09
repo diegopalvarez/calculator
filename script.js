@@ -105,4 +105,5 @@ equalButton.addEventListener("click", ()=>{
         display.textContent = "ERROR"
         displayText = ""
     }
+    displayText = ""
 })
