@@ -32,10 +32,6 @@ function operate(operator, a,b){
     }
 }
 const decimalNumbers = "\\d+\\.?\\d*"
-//const firstReg = /\(([^)]+)\)/g
-//const secondReg = /\d+(\*|\/)\d+/g
-//const lastReg = /(\d+|\-\d+)(\+|\-)\d+/g
-
 const firstPart = "\\(([^)]+)\\)"
 const secondPart = "(\\*|\\/)\\d+"
 const lastPart = "(\\+|\\-)\\d+"
