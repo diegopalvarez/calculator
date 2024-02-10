@@ -1,5 +1,5 @@
-let fistNumber, lastNumber, operator
 let displayText = ""
+let disabled = true
 
 function add(a, b){
     return a+b
@@ -26,7 +26,7 @@ function operate(operator, a,b){
         case "*":
             return multiply(a,b)
         case "/":
-            return divide(a,b)
+            return b==0 ? "Cannot divide by 0" : divide(a,b)
         default:
             return "ERROR"
     }
@@ -47,8 +47,8 @@ function compute(text){
             for (let i of item){
                 if (i.split(/\+|\d+\-|\*|\//).length <= 2){
                     let result = operateString(i)
-                    if (result == "ERROR")
-                        return "ERROR"
+                    if (isNaN(result))
+                        return result
                     text = text.replace(i, result)
                 }
                 else
@@ -100,11 +100,14 @@ const buttonsDiv = body.querySelector("#buttons")
 const buttonNodeList = buttonsDiv.querySelectorAll("button:not(#equal, #clear)")
 const clearButton = buttonsDiv.querySelector("#clear")
 const equalButton = buttonsDiv.querySelector("#equal")
+const operatorButton = buttonsDiv.querySelectorAll(".operator")
 
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
         displayText+=e.target.textContent
         display.textContent = displayText
+        if (disabled)
+            toggleOperator()
     })})
 
 clearButton.addEventListener("click", ()=>{
@@ -122,3 +125,16 @@ equalButton.addEventListener("click", ()=>{
     }
     displayText = ""
 })
+
+operatorButton.forEach((button)=>{
+    button.addEventListener("click", toggleOperator)
+})
+
+function toggleOperator(){
+    operatorButton.forEach((e) => e.disabled = !disabled)
+    disabled = !disabled
+}
+
+let special = [0,3,4]
+for (let i of special)
+    operatorButton[i].disabled = true
