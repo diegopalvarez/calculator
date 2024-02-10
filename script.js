@@ -31,18 +31,30 @@ function operate(operator, a,b){
             return "ERROR"
     }
 }
+const decimalNumbers = "\\d+\\.?\\d*"
+//const firstReg = /\(([^)]+)\)/g
+//const secondReg = /\d+(\*|\/)\d+/g
+//const lastReg = /(\d+|\-\d+)(\+|\-)\d+/g
 
-const firstReg = /\(([^)]+)\)/g
-const secondReg = /\d+(\*|\/)\d+/g
-const lastReg = /(\d+|\-\d+)(\+|\-)\d+/g
+const firstPart = "\\(([^)]+)\\)"
+const secondPart = "(\\*|\\/)\\d+"
+const lastPart = "(\\+|\\-)\\d+"
+
+const firstReg = new RegExp (firstPart, "g")
+const secondReg = new RegExp ("("+decimalNumbers+")"+secondPart, "g")
+const lastReg = new RegExp ("("+decimalNumbers+"|\-"+decimalNumbers+")"+lastPart, "g")
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
         while (text.match(priority) !== null){
             let item = text.match(priority)
             for (let i of item){
-                if (i.split(/\+|\d+\-|\*|\//).length <= 2)
-                    text = text.replace(i, operateString(i))
+                if (i.split(/\+|\d+\-|\*|\//).length <= 2){
+                    let result = operateString(i)
+                    if (result == "ERROR")
+                        return "ERROR"
+                    text = text.replace(i, result)
+                }
                 else
                     text = text.replace(i, compute(i.slice(0,-1).slice(1)))
                 text = text.replaceAll("--", "+")
@@ -60,11 +72,12 @@ function operateString(string){
         string.splice(string.length - 1, 1)
     let cutString = string.slice(0)     //Copies value, not reference. One method to have them separate
     if (string[0]=="-")
-        cutString.splice(0, 1)
+        if (string.length >2)    
+            cutString.splice(0, 1)
     
     string = string.join("")
     cutString = cutString.join("")
-    let operator = String(cutString.match(/[^\d]/))
+    let operator = String(cutString.match(/\+|\-|\*|\//))
     let splitPosition = string.lastIndexOf(operator)
     let [a, b] = [string.slice(0, splitPosition), string.slice(splitPosition+1)]
     return operate(operator, +a, +b)
