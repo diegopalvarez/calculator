@@ -34,7 +34,7 @@ function operate(operator, a,b){
 
 const firstReg = /\(([^)]+)\)/g
 const secondReg = /\d+(\*|\/)\d+/g
-const lastReg = /\d+(\+|\-)\d+/g
+const lastReg = /(\d+|\-\d+)(\+|\-)\d+/g
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
@@ -45,6 +45,7 @@ function compute(text){
                     text = text.replace(i, operateString(i))
                 else
                     text = text.replace(i, compute(i.slice(0,-1).slice(1)))
+                text = text.replaceAll("--", "+")
             }
         }
     }
