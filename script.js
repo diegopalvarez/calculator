@@ -1,5 +1,5 @@
-let fistNumber, lastNumber, operator
 let displayText = ""
+let disabled = true
 
 function add(a, b){
     return a+b
@@ -26,27 +26,34 @@ function operate(operator, a,b){
         case "*":
             return multiply(a,b)
         case "/":
-            return divide(a,b)
+            return b==0 ? "Cannot divide by 0" : divide(a,b)
         default:
             return "ERROR"
     }
 }
+const decimalNumbers = "\\d+\\.?\\d*"
+const firstPart = "\\(([^)]+)\\)"
+const secondPart = "(\\*|\\/)\\d+"
+const lastPart = "(\\+|\\-)\\d+"
 
-//EXPONENTIATION IS MISSING!!!
-
-const firstReg = /\(([^)]+)\)/g
-const secondReg = /\d+(\*|\/)\d+/g
-const lastReg = /\d+(\+|\-)\d+/g
+const firstReg = new RegExp (firstPart, "g")
+const secondReg = new RegExp ("("+decimalNumbers+")"+secondPart, "g")
+const lastReg = new RegExp ("("+decimalNumbers+"|\-"+decimalNumbers+")"+lastPart, "g")
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
-        while (text.match(priority) !== null){  //Doesn't respect order inside parentheses
+        while (text.match(priority) !== null){
             let item = text.match(priority)
             for (let i of item){
-                if (i.split(/\+|\-|\*|\//).length <= 2)
-                    text = text.replace(i, operateString(i))
+                if (i.split(/\+|\d+\-|\*|\//).length <= 2){
+                    let result = operateString(i)
+                    if (isNaN(result))
+                        return result
+                    text = text.replace(i, result)
+                }
                 else
                     text = text.replace(i, compute(i.slice(0,-1).slice(1)))
+                text = text.replaceAll("--", "+")
             }
         }
     }
@@ -55,12 +62,20 @@ function compute(text){
 
 function operateString(string){
     string = string.split("")
-    string[0]=="(" ? string.splice(0, 1) : string
-    string[string.length - 1]==")" ? string.splice(string.length - 1, 1) : string
+    if (string[0]=="(")
+        string.splice(0, 1)
+    if (string[string.length - 1]==")")
+        string.splice(string.length - 1, 1)
+    let cutString = string.slice(0)     //Copies value, not reference. One method to have them separate
+    if (string[0]=="-")
+        if (string.length >2)    
+            cutString.splice(0, 1)
+    
     string = string.join("")
-    let operator = String(string.match(/[^\d]/))
-    let numbers = string.split(/\+|\-|\*|\//)
-    let [a, b] = numbers
+    cutString = cutString.join("")
+    let operator = String(cutString.match(/\+|\-|\*|\//))
+    let splitPosition = string.lastIndexOf(operator)
+    let [a, b] = [string.slice(0, splitPosition), string.slice(splitPosition+1)]
     return operate(operator, +a, +b)
 }
 
@@ -85,11 +100,14 @@ const buttonsDiv = body.querySelector("#buttons")
 const buttonNodeList = buttonsDiv.querySelectorAll("button:not(#equal, #clear)")
 const clearButton = buttonsDiv.querySelector("#clear")
 const equalButton = buttonsDiv.querySelector("#equal")
+const operatorButton = buttonsDiv.querySelectorAll(".operator")
 
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
         displayText+=e.target.textContent
         display.textContent = displayText
+        if (disabled)
+            toggleOperator()
     })})
 
 clearButton.addEventListener("click", ()=>{
@@ -107,3 +125,16 @@ equalButton.addEventListener("click", ()=>{
     }
     displayText = ""
 })
+
+operatorButton.forEach((button)=>{
+    button.addEventListener("click", toggleOperator)
+})
+
+function toggleOperator(){
+    operatorButton.forEach((e) => e.disabled = !disabled)
+    disabled = !disabled
+}
+
+let special = [0,3,4]
+for (let i of special)
+    operatorButton[i].disabled = true
