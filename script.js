@@ -96,11 +96,11 @@ function checkParentheses(string){
 
 const body = document.querySelector("body")
 const display = body.querySelector("#display")
-const buttonsDiv = body.querySelector("#buttons")
-const buttonNodeList = buttonsDiv.querySelectorAll("button:not(#equal, #clear)")
-const clearButton = buttonsDiv.querySelector("#clear")
-const equalButton = buttonsDiv.querySelector("#equal")
-const operatorButton = buttonsDiv.querySelectorAll(".operator")
+const container = body.querySelector('#container')
+const buttonNodeList = container.querySelectorAll("button:not(#equal, #clear)")
+const clearButton = container.querySelector("#clear")
+const equalButton = container.querySelector("#equal")
+const operatorButton = container.querySelectorAll(".operator")
 
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
