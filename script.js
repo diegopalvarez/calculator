@@ -135,6 +135,6 @@ function toggleOperator(){
     disabled = !disabled
 }
 
-let special = [0,3,4]
+let special = [0,1,4]
 for (let i of special)
     operatorButton[i].disabled = true
