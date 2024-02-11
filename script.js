@@ -147,10 +147,13 @@ document.addEventListener("keydown", (event)=>{
         case "Delete":
             clearButton.click()
             break
+        case "Backspace":
+            displayText = displayText.slice(0, -1)
+            display.textContent = displayText
+            break
         default:
             for (let i of buttonNodeList){
                 if (i.textContent == event.key){
-                    console.log(i)
                     i.click()
                 }
             }
