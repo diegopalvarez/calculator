@@ -33,12 +33,12 @@ function operate(operator, a,b){
 }
 const decimalNumbers = "\\d+\\.?\\d*"
 const firstPart = "\\(([^)]+)\\)"
-const secondPart = "(\\*|\\/)\\d+"
-const lastPart = "(\\+|\\-)\\d+"
+const secondPart = "(\\*|\\/)"
+const lastPart = "(\\+|\\-)"
 
 const firstReg = new RegExp (firstPart, "g")
-const secondReg = new RegExp ("("+decimalNumbers+")"+secondPart, "g")
-const lastReg = new RegExp ("("+decimalNumbers+"|\-"+decimalNumbers+")"+lastPart, "g")
+const secondReg = new RegExp ("("+decimalNumbers+")"+secondPart+"("+decimalNumbers+")", "g")
+const lastReg = new RegExp ("("+decimalNumbers+"|\-"+decimalNumbers+")"+lastPart+"("+decimalNumbers+")", "g")
 function compute(text){
     const order = [firstReg, secondReg, lastReg]
     for (let priority of order){
