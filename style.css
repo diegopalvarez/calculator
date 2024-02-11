@@ -22,6 +22,7 @@ body{
     padding: 3.5vh;
     background-color: #daf4f5;
     border-radius: 4.5vh;
+    box-shadow: 0px 10px 26px 0px rgba(0,0,0,0.4);
 }
 
 .row{
@@ -59,6 +60,7 @@ button, button:disabled{
     min-width: 230px;
     min-height: 50px;
     flex: 1 0 50px;
+    font-size: 3em;
 }
 .operator:not(#period), #equal{
     background-color: #3825a1;
