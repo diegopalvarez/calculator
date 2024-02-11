@@ -7,6 +7,7 @@ body{
     justify-content: center;
     margin: 0;
     font-family: 'Poppins', sans-serif;
+    gap: 80px;
 }
 #container{
     display: flex;
@@ -84,4 +85,35 @@ button:hover{
 .operator:not(#period):hover, #equal:hover{
     background-color: #897ccc;
     color: black;
+}
+
+/*Message box*/
+#message{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 20vw;
+    border-radius: 4.5vh;
+    background-color: #D8ECED;
+    padding: 30px 30px 20px 30px;
+}
+#message:hover{
+    box-shadow: 0 0 20px 5px rgba(45, 99, 168, 0.5);
+    transition: all 0.2s ease-in;
+}
+
+#message > *{
+    padding: 0;
+    margin: 0;
+}
+h1{
+    font-size: 1.5vw;
+}
+p{
+    font-size: 1vw;
+    text-align: justify;
+}
+#small{
+    font-size: 0.8vw;
+    text-align: right;
 }

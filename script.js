@@ -101,6 +101,7 @@ const buttonNodeList = container.querySelectorAll("button:not(#equal, #clear)")
 const clearButton = container.querySelector("#clear")
 const equalButton = container.querySelector("#equal")
 const operatorButton = container.querySelectorAll(".operator")
+const message = body.querySelector('#message')
 
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
@@ -162,4 +163,8 @@ document.addEventListener("keydown", (event)=>{
             break
         
     }
+})
+
+message.addEventListener("click", ()=>{
+    body.removeChild(message)
 })
