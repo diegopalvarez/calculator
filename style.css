@@ -52,7 +52,6 @@ button, button:disabled{
 
 #display{
     display: flex;
-    border: solid 2px;
     border-radius: 20px;
     padding: 10px;
     align-items: center;
@@ -60,7 +59,9 @@ button, button:disabled{
     min-width: 230px;
     min-height: 50px;
     flex: 1 0 50px;
-    font-size: 3em;
+    font-size: 2em;
+    background-color: #d8eced;
+    box-shadow: inset 5px 5px 10px 0px rgba(0,0,0,0.1);
 }
 .operator:not(#period), #equal{
     background-color: #3825a1;

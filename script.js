@@ -104,10 +104,12 @@ const operatorButton = container.querySelectorAll(".operator")
 
 buttonNodeList.forEach((button)=>{
     button.addEventListener("click", (e)=>{
-        displayText+=e.target.textContent
-        display.textContent = displayText
-        if (disabled)
-            toggleOperator()
+        if (displayText.length < 13){
+            displayText+=e.target.textContent
+            display.textContent = displayText
+            if (disabled)
+                toggleOperator()
+        }
     })})
 
 clearButton.addEventListener("click", ()=>{
@@ -117,7 +119,7 @@ clearButton.addEventListener("click", ()=>{
 
 equalButton.addEventListener("click", ()=>{
     if (checkParentheses(displayText)){
-        display.textContent = compute(displayText)
+        display.textContent = compute(displayText).slice(0,13)
     }
     else{
         display.textContent = "ERROR"
