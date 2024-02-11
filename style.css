@@ -40,7 +40,7 @@ button, button:disabled{
     aspect-ratio: 1;
     min-height: 50px;
     min-width: 50px;
-    background-color: #90b3e0;
+    background-color: #47acd1;
     font-size: 3.5vh;
     color: black;
     border-color: black;
@@ -65,4 +65,26 @@ button, button:disabled{
     flex: 0;
     min-width: 230px;
     aspect-ratio: 4/1;
+}
+.operator:not(#period), #equal{
+    background-color: #3825a1;
+    color: white;
+}
+.parentheses, #clear{
+    background-color: #90b3e0;
+} 
+/*Special Interaction Styles*/
+button:hover{
+    background-color: #4084db;
+    box-shadow: 0 0 8px 0px rgba(45, 99, 168, 0.7);
+    transition: all 0.05s ease-in;
+}
+
+.parentheses:hover, #clear:hover{
+    background-color: #606bd1;
+}
+
+.operator:not(#period):hover, #equal:hover{
+    background-color: #897ccc;
+    color: black;
 }
