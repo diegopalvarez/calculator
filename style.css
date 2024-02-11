@@ -64,6 +64,7 @@ button, button:disabled{
     justify-content: flex-end;
     flex: 0;
     min-width: 230px;
+    min-height: 50px;
     aspect-ratio: 4/1;
 }
 .operator:not(#period), #equal{

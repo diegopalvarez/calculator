@@ -138,3 +138,23 @@ function toggleOperator(){
 let special = [0,1,4]
 for (let i of special)
     operatorButton[i].disabled = true
+
+document.addEventListener("keydown", (event)=>{
+    switch (event.key){
+        case "Enter":
+            equalButton.click()
+            break
+        case "Delete":
+            clearButton.click()
+            break
+        default:
+            for (let i of buttonNodeList){
+                if (i.textContent == event.key){
+                    console.log(i)
+                    i.click()
+                }
+            }
+            break
+        
+    }
+})
