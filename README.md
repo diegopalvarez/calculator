@@ -7,3 +7,5 @@ However, instead of creating a regular calculator, I chose to implement the logi
 * It verifies that the parentheses are correctly used, and warns the user if they made a mistake
 * To avoid logical mistakes, the calculator doesn't allow the user to type incorrect operations such as starting with a multiplication symbol (*) or using two operators in a row
 * If you need to delete the last number of your input, you can use your keyboard's __backspace__ key
+
+Experience it live _[here](https://diegopalvarez.github.io/calculator/)_!
